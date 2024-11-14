@@ -31,11 +31,11 @@ RUN dnf -y update \
      gperftools \
      xeyes \
   && dnf clean all
-# lcov (and LaTeX?) deps
+# lcov and LaTeX deps
 RUN dnf -y update \
   && dnf clean all \
   && dnf -y install --setopt=tsflags=nodocs \
-     perl-Digest-MD5 \
+     perl-Digest-MD5 `#LaTeX` \
      perl-IO-Compress \
      perl-JSON-XS \
      perl-Module-Load-Conditional \
@@ -79,14 +79,6 @@ RUN  tlmgr install collection-fontsrecommended \
   && tlmgr install tabu varwidth multirow wrapfig adjustbox collectbox sectsty tocloft `#collection-latexextra` \
   && tlmgr install epstopdf
 ENV PATH=$PATH:/usr/local/texlive/2017/bin/x86_64-linux
-# dotnet
-RUN rpm -Uvh https://packages.microsoft.com/config/rocky/8/packages-microsoft-prod.rpm \
-  && dnf -y update \
-  && dnf clean all \
-  && dnf -y install --setopt=tsflags=nodocs \
-     dotnet-sdk-8.0 \
-  && dnf clean all
-ENV DOTNET_CLI_TELEMETRY_OPTOUT=true
 # CUDA https://developer.nvidia.com/cuda-12-6-2-download-archive
 # NOTE: only subset of cuda-libraries-devel to reduce layer sizes
 RUN export CUDA_VER=12-6 \
@@ -106,16 +98,6 @@ RUN export CUDA_VER=12-6 \
   && dnf clean all \
   && unset CUDA_DL && unset CUDA_VER
 ENV PATH=$PATH:/usr/local/cuda/bin
-# minimum chrome
-RUN export CHR_VER=119.0.6045.105 \
-  && export CHR_DL=linux/chrome/rpm/stable/$(uname -m)/google-chrome-stable-${CHR_VER}-1.$(uname -m).rpm \
-  && echo "repo_add_once=false" > /etc/default/google-chrome \
-  && dnf -y update \
-  && dnf clean all \
-  && dnf -y install --setopt=tsflags=nodocs \
-     https://dl.google.com/${CHR_DL} \
-  && dnf clean all \
-  && unset CHR_DL && unset CHR_VER
 # externpro
 ENV XP_VER=24.05
 ENV EXTERNPRO_PATH=${EXTERN_DIR}/externpro-${XP_VER}-${GCC_VER}-64-Linux
