@@ -16,7 +16,6 @@ RUN dnf -y update \
      postgresql-devel \
      rpm-build \
      rpm-sign \
-     unixODBC-devel \
      Xvfb \
   && dnf clean all
 # PowerTools, EPEL Repositories
