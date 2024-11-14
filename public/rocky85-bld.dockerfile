@@ -9,7 +9,6 @@ USER 0
 RUN dnf -y update \
   && dnf clean all \
   && dnf -y install --setopt=tsflags=nodocs \
-     ghostscript `#LaTeX` \
      graphviz \
      iproute \
      libSM-devel \
@@ -31,11 +30,10 @@ RUN dnf -y update \
      gperftools \
      xeyes \
   && dnf clean all
-# lcov (and LaTeX?) deps
+# lcov deps
 RUN dnf -y update \
   && dnf clean all \
   && dnf -y install --setopt=tsflags=nodocs \
-     perl-Digest-MD5 \
      perl-IO-Compress \
      perl-JSON-XS \
      perl-Module-Load-Conditional \
@@ -64,21 +62,6 @@ RUN export DXY_VER=1.8.13 \
   && mv /usr/local/doxygen-${DXY_VER}/bin/doxygen /usr/local/bin/ \
   && rm -rf /usr/local/doxygen-${DXY_VER}/ \
   && unset DXY_VER
-# LaTeX
-# NOTE: multiple layers, small subset of collection-latexextra to reduce layer sizes
-COPY texlive.profile /usr/local/src/
-RUN export TEX_VER=2017 \
-  && wget -qO- "http://ftp.math.utah.edu/pub/tex/historic/systems/texlive/${TEX_VER}/tlnet-final/install-tl-unx.tar.gz" \
-  | tar -xz -C /usr/local/src/ \
-  && /usr/local/src/install-tl-20180303/install-tl -profile /usr/local/src/texlive.profile \
-     -repository http://ftp.math.utah.edu/pub/tex/historic/systems/texlive/${TEX_VER}/tlnet-final/archive/ \
-  && rm -rf /usr/local/src/install-tl-20180303 /usr/local/src/texlive.profile \
-  && unset TEX_VER
-RUN  tlmgr install collection-fontsrecommended \
-  && tlmgr install collection-latexrecommended \
-  && tlmgr install tabu varwidth multirow wrapfig adjustbox collectbox sectsty tocloft `#collection-latexextra` \
-  && tlmgr install epstopdf
-ENV PATH=$PATH:/usr/local/texlive/2017/bin/x86_64-linux
 # dotnet
 RUN rpm -Uvh https://packages.microsoft.com/config/rocky/8/packages-microsoft-prod.rpm \
   && dnf -y update \
@@ -87,25 +70,6 @@ RUN rpm -Uvh https://packages.microsoft.com/config/rocky/8/packages-microsoft-pr
      dotnet-sdk-8.0 \
   && dnf clean all
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=true
-# CUDA https://developer.nvidia.com/cuda-12-6-2-download-archive
-# NOTE: only subset of cuda-libraries-devel to reduce layer sizes
-RUN export CUDA_VER=12-6 \
-  && export CUDA_DL=https://developer.download.nvidia.com/compute/cuda/repos/rhel8/$(uname -m) \
-  && dnf config-manager --add-repo ${CUDA_DL}/cuda-rhel8.repo \
-  && dnf clean all \
-  && wget -O /etc/pki/rpm-gpg/RPM-GPG-KEY-NVIDIA ${CUDA_DL}/D42D0685.pub \
-  && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-NVIDIA \
-  && dnf -y install \
-     cuda-compiler-${CUDA_VER} \
-     cuda-cudart-devel-${CUDA_VER} \
-  `# cuda-libraries-devel` \
-     libcublas-devel-${CUDA_VER} \
-     libcufft-devel-${CUDA_VER} \
-     libcusolver-devel-${CUDA_VER} \
-     libcusparse-devel-${CUDA_VER} \
-  && dnf clean all \
-  && unset CUDA_DL && unset CUDA_VER
-ENV PATH=$PATH:/usr/local/cuda/bin
 # minimum chrome
 RUN export CHR_VER=120.0.6099.62 \
   && export CHR_DL=linux/chrome/rpm/stable/$(uname -m)/google-chrome-stable-${CHR_VER}-1.$(uname -m).rpm \
