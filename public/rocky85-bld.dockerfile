@@ -108,7 +108,7 @@ RUN export CUDA_VER=12-6 \
   && unset CUDA_DL && unset CUDA_VER
 ENV PATH=$PATH:/usr/local/cuda/bin
 # minimum chrome
-RUN export CHR_VER=119.0.6045.105 \
+RUN export CHR_VER=120.0.6099.62 \
   && export CHR_DL=linux/chrome/rpm/stable/$(uname -m)/google-chrome-stable-${CHR_VER}-1.$(uname -m).rpm \
   && echo "repo_add_once=false" > /etc/default/google-chrome \
   && dnf -y update \
