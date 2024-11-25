@@ -13,6 +13,7 @@ RUN dnf -y update \
      graphviz \
      iproute \
      libSM-devel \
+     perf \
      postgresql-devel \
      rpm-build \
      rpm-sign \
