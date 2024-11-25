@@ -73,6 +73,16 @@ RUN export CUDA_VER=12-6 \
   && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-NVIDIA \
   && dnf -y install \
      cuda-toolkit-${CUDA_VER} \
+  `# https://developer.nvidia.com/cudnn` \
+     cudnn \
+  `# https://developer.nvidia.com/cudss` \
+     cudss \
+  `# https://developer.nvidia.com/cutensor` \
+     libcutensor2 \
+     libcutensor-devel \
+     libcutensor-doc \
+  `# https://developer.nvidia.com/nvjpeg` \
+     nvjpeg2k \
   && dnf clean all \
   && unset CUDA_DL && unset CUDA_VER
 ENV PATH=$PATH:/usr/local/cuda/bin
