@@ -65,7 +65,6 @@ RUN export DXY_VER=1.8.13 \
   && rm -rf /usr/local/doxygen-${DXY_VER}/ \
   && unset DXY_VER
 # CUDA https://developer.nvidia.com/cuda-12-6-2-download-archive
-# NOTE: only subset of cuda-libraries-devel to reduce layer sizes
 RUN export CUDA_VER=12-6 \
   && export CUDA_DL=https://developer.download.nvidia.com/compute/cuda/repos/rhel8/$(uname -m) \
   && dnf config-manager --add-repo ${CUDA_DL}/cuda-rhel8.repo \
@@ -73,13 +72,7 @@ RUN export CUDA_VER=12-6 \
   && wget -O /etc/pki/rpm-gpg/RPM-GPG-KEY-NVIDIA ${CUDA_DL}/D42D0685.pub \
   && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-NVIDIA \
   && dnf -y install \
-     cuda-compiler-${CUDA_VER} \
-     cuda-cudart-devel-${CUDA_VER} \
-  `# cuda-libraries-devel` \
-     libcublas-devel-${CUDA_VER} \
-     libcufft-devel-${CUDA_VER} \
-     libcusolver-devel-${CUDA_VER} \
-     libcusparse-devel-${CUDA_VER} \
+     cuda-toolkit-${CUDA_VER} \
   && dnf clean all \
   && unset CUDA_DL && unset CUDA_VER
 ENV PATH=$PATH:/usr/local/cuda/bin
