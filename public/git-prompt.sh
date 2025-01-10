@@ -16,6 +16,10 @@ else
   if test -f "$COMPLETION_PATH/git-prompt.sh"
   then
     . "/usr/share/git-core/contrib/completion/git-prompt.sh"
+  fi
+  [ -f /usr/lib/git-core/git-sh-prompt ] && source /usr/lib/git-core/git-sh-prompt
+  if type __git_ps1 &>/dev/null
+  then
     PS1="$PS1"'\[\033[36m\]'  # change color to cyan
     PS1="$PS1"'`__git_ps1`'   # bash function
   fi
