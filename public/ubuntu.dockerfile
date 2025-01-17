@@ -19,6 +19,10 @@ RUN apt update \
   && apt -y autoremove \
   && apt clean autoclean \
   && rm -rf /var/lib/apt/lists/{apt,dpkg,cache,log} /tmp/* /var/tmp/*
+# Bootlin Toolchain gcc 9.3
+RUN mkdir -p /opt/jetson/jetpack5-gcc \
+  && wget -qO- "https://developer.nvidia.com/embedded/jetson-linux/bootlin-toolchain-gcc-93" \
+  | tar -xz -C /opt/jetson/jetpack5-gcc
 # cmake
 RUN export CMK_VER=3.28.3 \
   && export CMK_DL=releases/download/v${CMK_VER}/cmake-${CMK_VER}-$(uname -s)-$(uname -m).tar.gz \
