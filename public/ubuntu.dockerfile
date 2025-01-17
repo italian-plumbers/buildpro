@@ -11,6 +11,7 @@ RUN apt update \
      ca-certificates \
      git \
      lsb-release \
+     openssh-client \
      sudo \
      tzdata \
      vim \
