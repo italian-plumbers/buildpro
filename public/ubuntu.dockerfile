@@ -11,6 +11,7 @@ RUN apt update \
      ca-certificates \
      git \
      lsb-release \
+     ninja-build \
      openssh-client \
      sudo \
      tzdata \
