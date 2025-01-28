@@ -10,7 +10,6 @@ RUN dnf -y update \
   && dnf clean all \
   && dnf -y install --setopt=tsflags=nodocs \
      ghostscript `#LaTeX` \
-     graphviz \
      iproute \
      libSM-devel \
      perf \

@@ -9,7 +9,6 @@ USER 0
 RUN dnf -y update \
   && dnf clean all \
   && dnf -y install --setopt=tsflags=nodocs \
-     graphviz \
      iproute \
      libSM-devel \
      postgresql-devel \

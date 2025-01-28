@@ -12,6 +12,7 @@ RUN dnf -y update \
   && dnf -y install --setopt=tsflags=nodocs \
      coreutils-common \
      git \
+     graphviz \
      gtk3-devel \
      mesa-libGL-devel \
      mesa-libGLU-devel \
