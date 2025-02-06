@@ -16,4 +16,3 @@ do
     --tag ${pkg} .
   docker push ghcr.io/externpro/buildpro/${img}:${gtag}
 done
-docker image ls
