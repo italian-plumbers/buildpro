@@ -63,7 +63,7 @@ RUN export DXY_VER=1.8.13 \
   && mv /usr/local/doxygen-${DXY_VER}/bin/doxygen /usr/local/bin/ \
   && rm -rf /usr/local/doxygen-${DXY_VER}/ \
   && unset DXY_VER
-# CUDA https://developer.nvidia.com/cuda-12-6-3-download-archive
+# CUDA https://developer.nvidia.com/cuda-toolkit-archive
 RUN export CUDA_VER=12-6 \
   && export CUDA_DL=https://developer.download.nvidia.com/compute/cuda/repos/rhel8/$(uname -m) \
   && dnf config-manager --add-repo ${CUDA_DL}/cuda-rhel8.repo \
