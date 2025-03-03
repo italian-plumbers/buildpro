@@ -10,12 +10,14 @@ RUN apt update \
   apt -y --quiet --no-install-recommends install \
      ca-certificates \
      lsb-release \
+     software-properties-common \
      sudo \
      tzdata \
   && apt -y autoremove \
   && apt clean autoclean \
   && rm -rf /var/lib/apt/lists/{apt,dpkg,cache,log} /tmp/* /var/tmp/*
-RUN apt update \
+RUN add-apt-repository ppa:git-core/ppa -y \
+  && apt update \
   && DEBIAN_FRONTEND=noninteractive \
   apt -y --quiet --no-install-recommends install \
      git \
