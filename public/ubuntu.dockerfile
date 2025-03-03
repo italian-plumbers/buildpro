@@ -9,12 +9,18 @@ RUN apt update \
   && DEBIAN_FRONTEND=noninteractive \
   apt -y --quiet --no-install-recommends install \
      ca-certificates \
-     git \
      lsb-release \
-     ninja-build \
-     openssh-client \
      sudo \
      tzdata \
+  && apt -y autoremove \
+  && apt clean autoclean \
+  && rm -rf /var/lib/apt/lists/{apt,dpkg,cache,log} /tmp/* /var/tmp/*
+RUN apt update \
+  && DEBIAN_FRONTEND=noninteractive \
+  apt -y --quiet --no-install-recommends install \
+     git \
+     ninja-build \
+     openssh-client \
      vim \
      wget \
      xz-utils \
