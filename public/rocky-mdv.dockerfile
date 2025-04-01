@@ -9,6 +9,7 @@ USER 0
 RUN ${DNF} -y update \
   && ${DNF} clean all \
   && ${DNF} -y install ${DNFOPT} \
+     epel-release \
      iproute \
      libSM-devel \
      postgresql-devel \
@@ -16,23 +17,23 @@ RUN ${DNF} -y update \
      rpm-sign \
      Xvfb \
   && ${DNF} clean all
-# PowerTools, EPEL Repositories
+# PowerTools Repository
 RUN ${DNF} -y update \
   && ${DNF} clean all \
-  && ${DNF} -y install ${DNFOPT} \
-     dnf-plugins-core \
-     epel-release \
-  && ${DNF} config-manager --set-enabled powertools \
-  && ${DNF} -y update \
-  && ${DNF} -y install ${DNFOPT} \
+  && ${DNF} -y install --enablerepo=powertools ${DNFOPT} \
      cppcheck \
-     gperftools \
      xeyes \
+  && ${DNF} clean all
+# EPEL Repository
+RUN ${DNF} -y update \
+  && ${DNF} clean all \
+  && ${DNF} -y install --enablerepo=epel ${DNFOPT} \
+     gperftools \
   && ${DNF} clean all
 # lcov deps
 RUN ${DNF} -y update \
   && ${DNF} clean all \
-  && ${DNF} -y install ${DNFOPT} \
+  && ${DNF} -y install --enablerepo=powertools ${DNFOPT} \
      perl-IO-Compress \
      perl-JSON-XS \
      perl-Module-Load-Conditional \

@@ -6,9 +6,10 @@ USER 0
 VOLUME /bpvol
 ENV DNF=dnf
 ENV DNFOPT="--setopt=tsflags=nodocs"
-# dnf repositories
+# initial dnf update
 RUN ${DNF} -y update \
   && ${DNF} clean all
+# dnf repositories
 RUN ${DNF} -y update \
   && ${DNF} clean all \
   && ${DNF} -y install ${DNFOPT} \
@@ -25,6 +26,7 @@ RUN ${DNF} -y update \
      wget \
   && ${DNF} clean all \
   && alternatives --set python3 $(command -v python3.9)
+# gcc-toolset
 RUN ${DNF} -y update \
   && ${DNF} clean all \
   && ${DNF} -y install ${DNFOPT} \
@@ -35,9 +37,10 @@ RUN ${DNF} -y update \
      gcc-toolset-9-libasan-devel \
      gcc-toolset-9-libtsan-devel \
      gcc-toolset-9-make \
-  && ${DNF} config-manager --set-enabled powertools \
-  && ${DNF} -y update \
-  && ${DNF} -y install ${DNFOPT} \
+  && ${DNF} clean all
+# ninja-build
+RUN ${DNF} -y update \
+  && ${DNF} -y install --enablerepo=powertools ${DNFOPT} \
      ninja-build \
   && ${DNF} clean all
 # cmake
