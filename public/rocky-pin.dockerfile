@@ -91,7 +91,7 @@ RUN export CUDA_VER=12-6 \
   && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-NVIDIA \
   && ${DNF} -y update \
   && ${DNF} clean all \
-  && ${DNF} -y install \
+  && ${DNF} -y install ${DNFOPT} \
      cuda-compiler-${CUDA_VER} \
      cuda-cudart-devel-${CUDA_VER} \
   `# cuda-libraries-devel` \
