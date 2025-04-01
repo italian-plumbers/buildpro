@@ -5,7 +5,7 @@ SHELL ["/bin/bash", "-c"]
 USER 0
 VOLUME /bpvol
 ENV DNF=dnf
-ENV DNFOPT="--setopt=tsflags=nodocs"
+ENV DNFOPT="--setopt=tsflags=nodocs --setopt=install_weak_deps=0"
 # initial dnf update
 RUN ${DNF} -y update \
   && ${DNF} clean all
@@ -24,6 +24,7 @@ RUN ${DNF} -y update \
      sudo \
      vim \
      wget \
+     xz \
   && ${DNF} clean all \
   && alternatives --set python3 $(command -v python3.9)
 # gcc-toolset
