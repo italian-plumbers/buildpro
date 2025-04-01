@@ -8,7 +8,7 @@ USER 0
 # AppStream, BaseOS Repositories
 RUN ${DNF} -y update \
   && ${DNF} clean all \
-  && ${DNF} -y install --setopt=tsflags=nodocs \
+  && ${DNF} -y install ${DNFOPT} \
      ghostscript `#LaTeX` \
      iproute \
      libSM-devel \
@@ -21,12 +21,12 @@ RUN ${DNF} -y update \
 # PowerTools, EPEL Repositories
 RUN ${DNF} -y update \
   && ${DNF} clean all \
-  && ${DNF} -y install --setopt=tsflags=nodocs \
+  && ${DNF} -y install ${DNFOPT} \
      dnf-plugins-core \
      epel-release \
   && ${DNF} config-manager --set-enabled powertools \
   && ${DNF} -y update \
-  && ${DNF} -y install --setopt=tsflags=nodocs \
+  && ${DNF} -y install ${DNFOPT} \
      cppcheck \
      gperftools \
      xeyes \
@@ -34,7 +34,7 @@ RUN ${DNF} -y update \
 # lcov deps
 RUN ${DNF} -y update \
   && ${DNF} clean all \
-  && ${DNF} -y install --setopt=tsflags=nodocs \
+  && ${DNF} -y install ${DNFOPT} \
      perl-IO-Compress \
      perl-JSON-XS \
      perl-Module-Load-Conditional \

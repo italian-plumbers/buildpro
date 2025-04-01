@@ -5,12 +5,13 @@ SHELL ["/bin/bash", "-c"]
 USER 0
 VOLUME /bpvol
 ENV DNF=dnf
+ENV DNFOPT="--setopt=tsflags=nodocs"
 # dnf repositories
 RUN ${DNF} -y update \
   && ${DNF} clean all
 RUN ${DNF} -y update \
   && ${DNF} clean all \
-  && ${DNF} -y install --setopt=tsflags=nodocs \
+  && ${DNF} -y install ${DNFOPT} \
      coreutils-common \
      git \
      graphviz \
@@ -26,7 +27,7 @@ RUN ${DNF} -y update \
   && alternatives --set python3 $(command -v python3.9)
 RUN ${DNF} -y update \
   && ${DNF} clean all \
-  && ${DNF} -y install --setopt=tsflags=nodocs \
+  && ${DNF} -y install ${DNFOPT} \
      gcc-toolset-9-binutils \
      gcc-toolset-9-gcc \
      gcc-toolset-9-gcc-c++ \
@@ -36,7 +37,7 @@ RUN ${DNF} -y update \
      gcc-toolset-9-make \
   && ${DNF} config-manager --set-enabled powertools \
   && ${DNF} -y update \
-  && ${DNF} -y install --setopt=tsflags=nodocs \
+  && ${DNF} -y install ${DNFOPT} \
      ninja-build \
   && ${DNF} clean all
 # cmake

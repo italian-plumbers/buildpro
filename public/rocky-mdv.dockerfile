@@ -8,7 +8,7 @@ USER 0
 # AppStream, BaseOS Repositories
 RUN ${DNF} -y update \
   && ${DNF} clean all \
-  && ${DNF} -y install --setopt=tsflags=nodocs \
+  && ${DNF} -y install ${DNFOPT} \
      iproute \
      libSM-devel \
      postgresql-devel \
@@ -19,12 +19,12 @@ RUN ${DNF} -y update \
 # PowerTools, EPEL Repositories
 RUN ${DNF} -y update \
   && ${DNF} clean all \
-  && ${DNF} -y install --setopt=tsflags=nodocs \
+  && ${DNF} -y install ${DNFOPT} \
      dnf-plugins-core \
      epel-release \
   && ${DNF} config-manager --set-enabled powertools \
   && ${DNF} -y update \
-  && ${DNF} -y install --setopt=tsflags=nodocs \
+  && ${DNF} -y install ${DNFOPT} \
      cppcheck \
      gperftools \
      xeyes \
@@ -32,7 +32,7 @@ RUN ${DNF} -y update \
 # lcov deps
 RUN ${DNF} -y update \
   && ${DNF} clean all \
-  && ${DNF} -y install --setopt=tsflags=nodocs \
+  && ${DNF} -y install ${DNFOPT} \
      perl-IO-Compress \
      perl-JSON-XS \
      perl-Module-Load-Conditional \
@@ -65,7 +65,7 @@ RUN export DXY_VER=1.8.13 \
 RUN rpm -Uvh https://packages.microsoft.com/config/rocky/8/packages-microsoft-prod.rpm \
   && ${DNF} -y update \
   && ${DNF} clean all \
-  && ${DNF} -y install --setopt=tsflags=nodocs \
+  && ${DNF} -y install ${DNFOPT} \
      dotnet-sdk-8.0 \
   && ${DNF} clean all
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=true
@@ -75,7 +75,7 @@ RUN export CHR_VER=121.0.6167.85 \
   && echo "repo_add_once=false" > /etc/default/google-chrome \
   && ${DNF} -y update \
   && ${DNF} clean all \
-  && ${DNF} -y install --setopt=tsflags=nodocs \
+  && ${DNF} -y install ${DNFOPT} \
      https://dl.google.com/${CHR_DL} \
   && ${DNF} clean all \
   && unset CHR_DL && unset CHR_VER
