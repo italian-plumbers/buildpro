@@ -1,5 +1,5 @@
 ARG BPROTAG=latest
-FROM ghcr.io/externpro/buildpro/rocky85-pro:${BPROTAG}
+FROM ghcr.io/externpro/buildpro/rocky-pro:${BPROTAG}
 LABEL maintainer="smanders"
 LABEL org.opencontainers.image.source=https://github.com/externpro/buildpro
 SHELL ["/bin/bash", "-c"]
@@ -9,10 +9,8 @@ USER 0
 RUN dnf -y update \
   && dnf clean all \
   && dnf -y install --setopt=tsflags=nodocs \
-     ghostscript `#LaTeX` \
      iproute \
      libSM-devel \
-     perf \
      postgresql-devel \
      rpm-build \
      rpm-sign \
@@ -63,31 +61,24 @@ RUN export DXY_VER=1.8.13 \
   && mv /usr/local/doxygen-${DXY_VER}/bin/doxygen /usr/local/bin/ \
   && rm -rf /usr/local/doxygen-${DXY_VER}/ \
   && unset DXY_VER
-# CUDA https://developer.nvidia.com/cuda-toolkit-archive
-RUN export CUDA_VER=12-6 \
-  && export CUDA_DL=https://developer.download.nvidia.com/compute/cuda/repos/rhel8/$(uname -m) \
-  && dnf config-manager --add-repo ${CUDA_DL}/cuda-rhel8.repo \
+# dotnet
+RUN rpm -Uvh https://packages.microsoft.com/config/rocky/8/packages-microsoft-prod.rpm \
+  && dnf -y update \
   && dnf clean all \
-  && wget -O /etc/pki/rpm-gpg/RPM-GPG-KEY-NVIDIA ${CUDA_DL}/D42D0685.pub \
-  && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-NVIDIA \
-  && dnf -y install \
-     cuda-toolkit-${CUDA_VER} \
-  && dnf clean all \
-  && unset CUDA_DL && unset CUDA_VER
-RUN dnf clean all \
-  && dnf -y install \
-  `# https://developer.nvidia.com/cudnn` \
-     cudnn \
-  `# https://developer.nvidia.com/cudss` \
-     cudss \
-  `# https://developer.nvidia.com/cutensor` \
-     libcutensor2 \
-     libcutensor-devel \
-     libcutensor-doc \
-  `# https://developer.nvidia.com/nvjpeg` \
-     nvjpeg2k \
+  && dnf -y install --setopt=tsflags=nodocs \
+     dotnet-sdk-8.0 \
   && dnf clean all
-ENV PATH=$PATH:/usr/local/cuda/bin
+ENV DOTNET_CLI_TELEMETRY_OPTOUT=true
+# minimum chrome
+RUN export CHR_VER=121.0.6167.85 \
+  && export CHR_DL=linux/chrome/rpm/stable/$(uname -m)/google-chrome-stable-${CHR_VER}-1.$(uname -m).rpm \
+  && echo "repo_add_once=false" > /etc/default/google-chrome \
+  && dnf -y update \
+  && dnf clean all \
+  && dnf -y install --setopt=tsflags=nodocs \
+     https://dl.google.com/${CHR_DL} \
+  && dnf clean all \
+  && unset CHR_DL && unset CHR_VER
 # externpro
 ENV XP_VER=24.05
 ENV EXTERNPRO_PATH=${EXTERN_DIR}/externpro-${XP_VER}-${GCC_VER}-64-Linux

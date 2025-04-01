@@ -1,5 +1,5 @@
 ARG BPROTAG=latest
-FROM ghcr.io/externpro/buildpro/rocky85-bld:${BPROTAG}
+FROM ghcr.io/externpro/buildpro/rocky-mdv:${BPROTAG}
 LABEL maintainer="smanders"
 LABEL org.opencontainers.image.source=https://github.com/externpro/buildpro
 SHELL ["/bin/bash", "-c"]

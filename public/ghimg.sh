@@ -5,7 +5,7 @@ if [ -n "$(git status --porcelain --untracked=no)" ] || [[ ${gtag} == *"-g"* ]];
   gtag=latest
 fi
 # build ghcr.io images
-for img in ubuntu rocky85-pro rocky85-bld rocky85-ci rocky85-pin rocky85-pdv
+for img in ubuntu rocky-pro rocky-mdv rocky-ci rocky-pin rocky-pdv
 do
   pkg=ghcr.io/externpro/buildpro/${img}:${gtag}
   time docker image build \
