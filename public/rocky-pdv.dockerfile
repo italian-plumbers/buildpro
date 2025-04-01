@@ -6,9 +6,9 @@ SHELL ["/bin/bash", "-c"]
 USER 0
 # https://rockylinux.pkgs.org https://rhel.pkgs.org
 # AppStream, BaseOS Repositories
-RUN dnf -y update \
-  && dnf clean all \
-  && dnf -y install --setopt=tsflags=nodocs \
+RUN ${DNF} -y update \
+  && ${DNF} clean all \
+  && ${DNF} -y install --setopt=tsflags=nodocs \
      ghostscript `#LaTeX` \
      iproute \
      libSM-devel \
@@ -17,28 +17,28 @@ RUN dnf -y update \
      rpm-build \
      rpm-sign \
      Xvfb \
-  && dnf clean all
+  && ${DNF} clean all
 # PowerTools, EPEL Repositories
-RUN dnf -y update \
-  && dnf clean all \
-  && dnf -y install --setopt=tsflags=nodocs \
+RUN ${DNF} -y update \
+  && ${DNF} clean all \
+  && ${DNF} -y install --setopt=tsflags=nodocs \
      dnf-plugins-core \
      epel-release \
-  && dnf config-manager --set-enabled powertools \
-  && dnf -y update \
-  && dnf -y install --setopt=tsflags=nodocs \
+  && ${DNF} config-manager --set-enabled powertools \
+  && ${DNF} -y update \
+  && ${DNF} -y install --setopt=tsflags=nodocs \
      cppcheck \
      gperftools \
      xeyes \
-  && dnf clean all
+  && ${DNF} clean all
 # lcov deps
-RUN dnf -y update \
-  && dnf clean all \
-  && dnf -y install --setopt=tsflags=nodocs \
+RUN ${DNF} -y update \
+  && ${DNF} clean all \
+  && ${DNF} -y install --setopt=tsflags=nodocs \
      perl-IO-Compress \
      perl-JSON-XS \
      perl-Module-Load-Conditional \
-  && dnf clean all
+  && ${DNF} clean all
 # lcov
 RUN export LCOV_VER=1.16 \
   && wget -qO- "https://github.com/linux-test-project/lcov/releases/download/v${LCOV_VER}/lcov-${LCOV_VER}.tar.gz" \
@@ -66,16 +66,16 @@ RUN export DXY_VER=1.8.13 \
 # CUDA https://developer.nvidia.com/cuda-toolkit-archive
 RUN export CUDA_VER=12-6 \
   && export CUDA_DL=https://developer.download.nvidia.com/compute/cuda/repos/rhel8/$(uname -m) \
-  && dnf config-manager --add-repo ${CUDA_DL}/cuda-rhel8.repo \
-  && dnf clean all \
+  && ${DNF} config-manager --add-repo ${CUDA_DL}/cuda-rhel8.repo \
+  && ${DNF} clean all \
   && wget -O /etc/pki/rpm-gpg/RPM-GPG-KEY-NVIDIA ${CUDA_DL}/D42D0685.pub \
   && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-NVIDIA \
-  && dnf -y install \
+  && ${DNF} -y install \
      cuda-toolkit-${CUDA_VER} \
-  && dnf clean all \
+  && ${DNF} clean all \
   && unset CUDA_DL && unset CUDA_VER
-RUN dnf clean all \
-  && dnf -y install \
+RUN ${DNF} clean all \
+  && ${DNF} -y install \
   `# https://developer.nvidia.com/cudnn` \
      cudnn \
   `# https://developer.nvidia.com/cudss` \
@@ -86,7 +86,7 @@ RUN dnf clean all \
      libcutensor-doc \
   `# https://developer.nvidia.com/nvjpeg` \
      nvjpeg2k \
-  && dnf clean all
+  && ${DNF} clean all
 ENV PATH=$PATH:/usr/local/cuda/bin
 # externpro
 ENV XP_VER=24.05

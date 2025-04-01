@@ -6,9 +6,9 @@ SHELL ["/bin/bash", "-c"]
 USER 0
 # https://rockylinux.pkgs.org https://rhel.pkgs.org
 # AppStream, BaseOS Repositories
-RUN dnf -y update \
-  && dnf clean all \
-  && dnf -y install --setopt=tsflags=nodocs \
+RUN ${DNF} -y update \
+  && ${DNF} clean all \
+  && ${DNF} -y install --setopt=tsflags=nodocs \
      ghostscript `#LaTeX` \
      iproute \
      libSM-devel \
@@ -17,29 +17,29 @@ RUN dnf -y update \
      rpm-build \
      rpm-sign \
      Xvfb \
-  && dnf clean all
+  && ${DNF} clean all
 # PowerTools, EPEL Repositories
-RUN dnf -y update \
-  && dnf clean all \
-  && dnf -y install --setopt=tsflags=nodocs \
+RUN ${DNF} -y update \
+  && ${DNF} clean all \
+  && ${DNF} -y install --setopt=tsflags=nodocs \
      dnf-plugins-core \
      epel-release \
-  && dnf config-manager --set-enabled powertools \
-  && dnf -y update \
-  && dnf -y install --setopt=tsflags=nodocs \
+  && ${DNF} config-manager --set-enabled powertools \
+  && ${DNF} -y update \
+  && ${DNF} -y install --setopt=tsflags=nodocs \
      cppcheck \
      gperftools \
      xeyes \
-  && dnf clean all
+  && ${DNF} clean all
 # lcov and LaTeX deps
-RUN dnf -y update \
-  && dnf clean all \
-  && dnf -y install --setopt=tsflags=nodocs \
+RUN ${DNF} -y update \
+  && ${DNF} clean all \
+  && ${DNF} -y install --setopt=tsflags=nodocs \
      perl-Digest-MD5 `#LaTeX` \
      perl-IO-Compress \
      perl-JSON-XS \
      perl-Module-Load-Conditional \
-  && dnf clean all
+  && ${DNF} clean all
 # lcov
 RUN export LCOV_VER=1.16 \
   && wget -qO- "https://github.com/linux-test-project/lcov/releases/download/v${LCOV_VER}/lcov-${LCOV_VER}.tar.gz" \
@@ -83,11 +83,11 @@ ENV PATH=$PATH:/usr/local/texlive/2017/bin/x86_64-linux
 # NOTE: only subset of cuda-libraries-devel to reduce layer sizes
 RUN export CUDA_VER=12-6 \
   && export CUDA_DL=https://developer.download.nvidia.com/compute/cuda/repos/rhel8/$(uname -m) \
-  && dnf config-manager --add-repo ${CUDA_DL}/cuda-rhel8.repo \
-  && dnf clean all \
+  && ${DNF} config-manager --add-repo ${CUDA_DL}/cuda-rhel8.repo \
+  && ${DNF} clean all \
   && wget -O /etc/pki/rpm-gpg/RPM-GPG-KEY-NVIDIA ${CUDA_DL}/D42D0685.pub \
   && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-NVIDIA \
-  && dnf -y install \
+  && ${DNF} -y install \
      cuda-compiler-${CUDA_VER} \
      cuda-cudart-devel-${CUDA_VER} \
   `# cuda-libraries-devel` \
@@ -95,7 +95,7 @@ RUN export CUDA_VER=12-6 \
      libcufft-devel-${CUDA_VER} \
      libcusolver-devel-${CUDA_VER} \
      libcusparse-devel-${CUDA_VER} \
-  && dnf clean all \
+  && ${DNF} clean all \
   && unset CUDA_DL && unset CUDA_VER
 ENV PATH=$PATH:/usr/local/cuda/bin
 # externpro

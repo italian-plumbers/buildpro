@@ -6,37 +6,37 @@ SHELL ["/bin/bash", "-c"]
 USER 0
 # https://rockylinux.pkgs.org https://rhel.pkgs.org
 # AppStream, BaseOS Repositories
-RUN dnf -y update \
-  && dnf clean all \
-  && dnf -y install --setopt=tsflags=nodocs \
+RUN ${DNF} -y update \
+  && ${DNF} clean all \
+  && ${DNF} -y install --setopt=tsflags=nodocs \
      iproute \
      libSM-devel \
      postgresql-devel \
      rpm-build \
      rpm-sign \
      Xvfb \
-  && dnf clean all
+  && ${DNF} clean all
 # PowerTools, EPEL Repositories
-RUN dnf -y update \
-  && dnf clean all \
-  && dnf -y install --setopt=tsflags=nodocs \
+RUN ${DNF} -y update \
+  && ${DNF} clean all \
+  && ${DNF} -y install --setopt=tsflags=nodocs \
      dnf-plugins-core \
      epel-release \
-  && dnf config-manager --set-enabled powertools \
-  && dnf -y update \
-  && dnf -y install --setopt=tsflags=nodocs \
+  && ${DNF} config-manager --set-enabled powertools \
+  && ${DNF} -y update \
+  && ${DNF} -y install --setopt=tsflags=nodocs \
      cppcheck \
      gperftools \
      xeyes \
-  && dnf clean all
+  && ${DNF} clean all
 # lcov deps
-RUN dnf -y update \
-  && dnf clean all \
-  && dnf -y install --setopt=tsflags=nodocs \
+RUN ${DNF} -y update \
+  && ${DNF} clean all \
+  && ${DNF} -y install --setopt=tsflags=nodocs \
      perl-IO-Compress \
      perl-JSON-XS \
      perl-Module-Load-Conditional \
-  && dnf clean all
+  && ${DNF} clean all
 # lcov
 RUN export LCOV_VER=1.16 \
   && wget -qO- "https://github.com/linux-test-project/lcov/releases/download/v${LCOV_VER}/lcov-${LCOV_VER}.tar.gz" \
@@ -63,21 +63,21 @@ RUN export DXY_VER=1.8.13 \
   && unset DXY_VER
 # dotnet
 RUN rpm -Uvh https://packages.microsoft.com/config/rocky/8/packages-microsoft-prod.rpm \
-  && dnf -y update \
-  && dnf clean all \
-  && dnf -y install --setopt=tsflags=nodocs \
+  && ${DNF} -y update \
+  && ${DNF} clean all \
+  && ${DNF} -y install --setopt=tsflags=nodocs \
      dotnet-sdk-8.0 \
-  && dnf clean all
+  && ${DNF} clean all
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=true
 # minimum chrome
 RUN export CHR_VER=121.0.6167.85 \
   && export CHR_DL=linux/chrome/rpm/stable/$(uname -m)/google-chrome-stable-${CHR_VER}-1.$(uname -m).rpm \
   && echo "repo_add_once=false" > /etc/default/google-chrome \
-  && dnf -y update \
-  && dnf clean all \
-  && dnf -y install --setopt=tsflags=nodocs \
+  && ${DNF} -y update \
+  && ${DNF} clean all \
+  && ${DNF} -y install --setopt=tsflags=nodocs \
      https://dl.google.com/${CHR_DL} \
-  && dnf clean all \
+  && ${DNF} clean all \
   && unset CHR_DL && unset CHR_VER
 # externpro
 ENV XP_VER=24.05

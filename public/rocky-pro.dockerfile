@@ -4,12 +4,13 @@ LABEL org.opencontainers.image.source=https://github.com/externpro/buildpro
 SHELL ["/bin/bash", "-c"]
 USER 0
 VOLUME /bpvol
+ENV DNF=dnf
 # dnf repositories
-RUN dnf -y update \
-  && dnf clean all
-RUN dnf -y update \
-  && dnf clean all \
-  && dnf -y install --setopt=tsflags=nodocs \
+RUN ${DNF} -y update \
+  && ${DNF} clean all
+RUN ${DNF} -y update \
+  && ${DNF} clean all \
+  && ${DNF} -y install --setopt=tsflags=nodocs \
      coreutils-common \
      git \
      graphviz \
@@ -21,11 +22,11 @@ RUN dnf -y update \
      sudo \
      vim \
      wget \
-  && dnf clean all \
+  && ${DNF} clean all \
   && alternatives --set python3 $(command -v python3.9)
-RUN dnf -y update \
-  && dnf clean all \
-  && dnf -y install --setopt=tsflags=nodocs \
+RUN ${DNF} -y update \
+  && ${DNF} clean all \
+  && ${DNF} -y install --setopt=tsflags=nodocs \
      gcc-toolset-9-binutils \
      gcc-toolset-9-gcc \
      gcc-toolset-9-gcc-c++ \
@@ -33,11 +34,11 @@ RUN dnf -y update \
      gcc-toolset-9-libasan-devel \
      gcc-toolset-9-libtsan-devel \
      gcc-toolset-9-make \
-  && dnf config-manager --set-enabled powertools \
-  && dnf -y update \
-  && dnf -y install --setopt=tsflags=nodocs \
+  && ${DNF} config-manager --set-enabled powertools \
+  && ${DNF} -y update \
+  && ${DNF} -y install --setopt=tsflags=nodocs \
      ninja-build \
-  && dnf clean all
+  && ${DNF} clean all
 # cmake
 RUN export CMK_VER=3.31.5 \
   && export CMK_DL=releases/download/v${CMK_VER}/cmake-${CMK_VER}-$(uname -s)-$(uname -m).tar.gz \

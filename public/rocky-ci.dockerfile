@@ -7,9 +7,9 @@ USER 0
 # install node
 ENV NODE_VERSION=20.18.0
 ENV NVM_DIR=/opt/.nvm
-RUN mkdir $NVM_DIR && dnf install -y curl \
+RUN mkdir $NVM_DIR && ${DNF} install -y curl \
   && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash \
-  && dnf clean all
+  && ${DNF} clean all
 RUN . "$NVM_DIR/nvm.sh" && nvm install ${NODE_VERSION} \
   && . "$NVM_DIR/nvm.sh" && nvm use v${NODE_VERSION} \
   && . "$NVM_DIR/nvm.sh" && nvm alias default v${NODE_VERSION}
