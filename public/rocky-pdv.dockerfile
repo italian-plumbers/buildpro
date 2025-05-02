@@ -87,8 +87,6 @@ RUN ${DNF} clean all \
      libcutensor2 \
      libcutensor-devel \
      libcutensor-doc \
-  `# https://developer.nvidia.com/nvjpeg` \
-     nvjpeg2k \
   && ${DNF} clean all
 ENV PATH=$PATH:/usr/local/cuda/bin
 # externpro

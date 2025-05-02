@@ -99,8 +99,6 @@ RUN export CUDA_VER=12-6 \
      libcufft-devel-${CUDA_VER} \
      libcusolver-devel-${CUDA_VER} \
      libcusparse-devel-${CUDA_VER} \
-  `# https://developer.nvidia.com/nvjpeg` \
-     nvjpeg2k \
   && ${DNF} clean all \
   && unset CUDA_DL && unset CUDA_VER
 ENV PATH=$PATH:/usr/local/cuda/bin
