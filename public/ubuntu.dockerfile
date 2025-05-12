@@ -35,7 +35,7 @@ RUN mkdir -p /opt/jetson/jetpack5-gcc \
   | tar -xz -C /opt/jetson/jetpack5-gcc
 ENV XPX=JetPack
 # cmake
-RUN export CMK_VER=3.31.5 \
+RUN export CMK_VER=3.31.7 \
   && export CMK_DL=releases/download/v${CMK_VER}/cmake-${CMK_VER}-$(uname -s)-$(uname -m).tar.gz \
   && wget -qO- "https://github.com/Kitware/CMake/${CMK_DL}" \
   | tar --strip-components=1 -xz -C /usr/local/ \
