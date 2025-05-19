@@ -34,6 +34,15 @@ RUN mkdir -p /opt/jetson/jetpack5-gcc \
   && wget -qO- "https://developer.nvidia.com/embedded/jetson-linux/bootlin-toolchain-gcc-93" \
   | tar -xz -C /opt/jetson/jetpack5-gcc
 ENV XPX=JetPack
+# git-lfs
+RUN export LFS_VER=2.12.1 \
+  && mkdir /usr/local/src/lfs \
+  && wget -qO- "https://github.com/git-lfs/git-lfs/releases/download/v${LFS_VER}/git-lfs-linux-amd64-v${LFS_VER}.tar.gz" \
+  | tar -xz -C /usr/local/src/lfs \
+  && /usr/local/src/lfs/install.sh \
+  && rm -rf /usr/local/src/lfs/ \
+  && unset LFS_VER \
+  && git lfs install --system
 # cmake
 RUN export CMK_VER=3.31.7 \
   && export CMK_DL=releases/download/v${CMK_VER}/cmake-${CMK_VER}-$(uname -s)-$(uname -m).tar.gz \
