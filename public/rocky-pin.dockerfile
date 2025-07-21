@@ -102,6 +102,14 @@ RUN export CUDA_VER=12-6 \
   && ${DNF} clean all \
   && unset CUDA_DL && unset CUDA_VER
 ENV PATH=$PATH:/usr/local/cuda/bin
+# dotnet
+RUN rpm -Uvh https://packages.microsoft.com/config/rocky/8/packages-microsoft-prod.rpm \
+  && ${DNF} -y update \
+  && ${DNF} clean all \
+  && ${DNF} -y install ${DNFOPT} \
+     dotnet-sdk-8.0 \
+  && ${DNF} clean all
+ENV DOTNET_CLI_TELEMETRY_OPTOUT=true
 # externpro
 ENV XP_VER=24.05
 ENV EXTERNPRO_PATH=${EXTERN_DIR}/externpro-${XP_VER}-${GCC_VER}-64-Linux
