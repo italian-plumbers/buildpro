@@ -1,7 +1,7 @@
 ARG BPROTAG=latest
-FROM ghcr.io/externpro/buildpro/rocky-pro:${BPROTAG}
-LABEL maintainer="smanders"
-LABEL org.opencontainers.image.source=https://github.com/externpro/buildpro
+FROM ghcr.io/italian-plumbers/buildpro/rocky-pro:${BPROTAG}
+LABEL maintainer="italian-plumbers"
+LABEL org.opencontainers.image.source=https://github.com/italian-plumbers/buildpro
 SHELL ["/bin/bash", "-c"]
 USER 0
 # https://rockylinux.pkgs.org https://rhel.pkgs.org
@@ -102,11 +102,19 @@ RUN export CUDA_VER=12-6 \
   && ${DNF} clean all \
   && unset CUDA_DL && unset CUDA_VER
 ENV PATH=$PATH:/usr/local/cuda/bin
+# dotnet
+RUN rpm -Uvh https://packages.microsoft.com/config/rocky/8/packages-microsoft-prod.rpm \
+  && ${DNF} -y update \
+  && ${DNF} clean all \
+  && ${DNF} -y install ${DNFOPT} \
+     dotnet-sdk-8.0 \
+  && ${DNF} clean all
+ENV DOTNET_CLI_TELEMETRY_OPTOUT=true
 # externpro
 ENV XP_VER=24.05
 ENV EXTERNPRO_PATH=${EXTERN_DIR}/externpro-${XP_VER}-${GCC_VER}-64-Linux
 RUN mkdir ${EXTERN_DIR} \
   && export XP_DL=releases/download/${XP_VER}/externpro-${XP_VER}-${GCC_VER}-64-$(uname -s).tar.xz \
-  && wget -qO- "https://github.com/smanders/externpro/${XP_DL}" | tar --no-same-owner -xJ -C ${EXTERN_DIR} \
+  && wget -qO- "https://github.com/italian-plumbers/old_externpro/${XP_DL}" | tar --no-same-owner -xJ -C ${EXTERN_DIR} \
   && unset XP_DL
 ENTRYPOINT ["/bin/bash", "/usr/local/bpbin/entry.sh"]

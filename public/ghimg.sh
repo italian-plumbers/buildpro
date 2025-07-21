@@ -5,14 +5,15 @@ if [ -n "$(git status --porcelain --untracked=no)" ] || [[ ${gtag} == *"-g"* ]];
   gtag=latest
 fi
 # build ghcr.io images
+prefix="ghcr.io/italian-plumbers/buildpro/"
 for img in ubuntu rocky-pro rocky-mdv rocky-ci rocky-pin rocky-pdv
 do
-  pkg=ghcr.io/externpro/buildpro/${img}:${gtag}
+  pkg=${prefix}${img}:${gtag}
   time docker image build \
     --network=host \
     --build-arg BPROTAG=${gtag} \
     --file ${img}.dockerfile \
-    --tag ghcr.io/externpro/buildpro/${img}:latest \
+    --tag ${prefix}${img}:latest \
     --tag ${pkg} .
-  docker push ghcr.io/externpro/buildpro/${img}:${gtag}
+  docker push ${prefix}${img}:${gtag}
 done

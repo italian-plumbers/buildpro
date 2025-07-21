@@ -1,7 +1,7 @@
 ARG BPROTAG=latest
-FROM ghcr.io/externpro/buildpro/rocky-mdv:${BPROTAG}
-LABEL maintainer="smanders"
-LABEL org.opencontainers.image.source=https://github.com/externpro/buildpro
+FROM ghcr.io/italian-plumbers/buildpro/rocky-mdv:${BPROTAG}
+LABEL maintainer="italian-plumbers"
+LABEL org.opencontainers.image.source=https://github.com/italian-plumbers/buildpro
 SHELL ["/bin/bash", "-c"]
 USER 0
 # install node

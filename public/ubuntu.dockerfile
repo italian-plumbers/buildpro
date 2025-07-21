@@ -1,6 +1,6 @@
-FROM ghcr.io/externpro/ubuntu:20.04
-LABEL maintainer="smanders"
-LABEL org.opencontainers.image.source=https://github.com/externpro/buildpro
+FROM ghcr.io/italian-plumbers/ubuntu:20.04
+LABEL maintainer="italian-plumbers"
+LABEL org.opencontainers.image.source=https://github.com/italian-plumbers/buildpro
 SHELL ["/bin/bash", "-c"]
 USER 0
 VOLUME /bpvol
@@ -49,13 +49,6 @@ RUN export CMK_VER=3.31.7 \
   && wget -qO- "https://github.com/Kitware/CMake/${CMK_DL}" \
   | tar --strip-components=1 -xz -C /usr/local/ \
   && unset CMK_DL && unset CMK_VER
-# Dockerfile.vim
-RUN export DVIM_VER=21.09.06 \
-  && export DVIM_SYS=/usr/share/vim/vimfiles \
-  && export DVIM_DL=releases/download/${DVIM_VER}/Dockerfile.vim-${DVIM_VER}.tar.xz \
-  && mkdir -p ${DVIM_SYS} \
-  && wget -qO- "https://github.com/smanders/Dockerfile.vim/${DVIM_DL}" | tar --no-same-owner -xJ -C ${DVIM_SYS} \
-  && unset DVIM_DL && unset DVIM_SYS && unset DVIM_VER
 # copy from local into image
 COPY scripts/ /usr/local/bpbin
 COPY git-prompt.sh /usr/local/bpbin/

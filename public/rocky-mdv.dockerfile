@@ -1,7 +1,7 @@
 ARG BPROTAG=latest
-FROM ghcr.io/externpro/buildpro/rocky-pro:${BPROTAG}
-LABEL maintainer="smanders"
-LABEL org.opencontainers.image.source=https://github.com/externpro/buildpro
+FROM ghcr.io/italian-plumbers/buildpro/rocky-pro:${BPROTAG}
+LABEL maintainer="italian-plumbers"
+LABEL org.opencontainers.image.source=https://github.com/italian-plumbers/buildpro
 SHELL ["/bin/bash", "-c"]
 USER 0
 # https://rockylinux.pkgs.org https://rhel.pkgs.org
@@ -85,6 +85,6 @@ ENV XP_VER=24.05
 ENV EXTERNPRO_PATH=${EXTERN_DIR}/externpro-${XP_VER}-${GCC_VER}-64-Linux
 RUN mkdir ${EXTERN_DIR} \
   && export XP_DL=releases/download/${XP_VER}/externpro-${XP_VER}-${GCC_VER}-64-$(uname -s).tar.xz \
-  && wget -qO- "https://github.com/smanders/externpro/${XP_DL}" | tar --no-same-owner -xJ -C ${EXTERN_DIR} \
+  && wget -qO- "https://github.com/italian-plumbers/old_externpro/${XP_DL}" | tar --no-same-owner -xJ -C ${EXTERN_DIR} \
   && unset XP_DL
 ENTRYPOINT ["/bin/bash", "/usr/local/bpbin/entry.sh"]
