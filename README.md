@@ -1,6 +1,6 @@
 # buildpro
 
-build images for projects that use [externpro](https://github.com/externpro/externpro)
+build images for projects that use [externpro](https://github.com/italian-plumbers/externpro)
 
 ## Table of Contents
 - [Getting started with docker](#getting-started-with-docker)
@@ -75,15 +75,15 @@ $ docker exec -it <container_name> bash
 ## buildpro packages
 
 * the [public/ghimg.sh](public/ghimg.sh) script builds and publishes the public
-  [buildpro packages](https://github.com/orgs/externpro/packages?repo_name=buildpro)
+  [buildpro packages](https://github.com/orgs/italian-plumbers/packages?repo_name=buildpro)
 
 ## Using buildpro
 
 To use buildpro images
-* add [externpro](https://github.com/externpro/externpro) as a submodule to the project wanting
+* add [externpro](https://github.com/italian-plumbers/externpro) as a submodule to the project wanting
   to leverage buildpro images, optimally to .devcontainer
   ```
-  git submodule add https://github.com/externpro/externpro .devcontainer
+  git submodule add https://github.com/italian-plumbers/externpro .devcontainer
   ```
 * create symbolic links to the `compose.*.[sh|yml]` file pair suitable for the project
   ```
